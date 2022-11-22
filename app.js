@@ -17,20 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(swapiJson => {
             // actual useful swapi data
-            console.log(swapiJson.results[0])
+            console.log(swapiJson.results)
             // select the body
             const body = document.querySelector('body')
-            console.log(body)
-            // create some elements to load on the body
-            const div = document.createElement('div')
-            const p = document.createElement('p')
-            const h2 = document.createElement('h2')
-            // modify the properties of the elements
-            p.innerText = swapiJson.results[0].opening_crawl
-            h2.innerText = swapiJson.results[0].title
-            console.log(p, h2)
-            // append new elements to the dom
-            div.append(h2, p)
-            body.append(div)
+            // loop over each movie and append the title and opening crawl to the page
+            swapiJson.results.forEach(result => {
+                // create some elements to load on the body
+                const div = document.createElement('div')
+                const p = document.createElement('p')
+                const h2 = document.createElement('h2')
+                // modify the properties of the elements
+                p.innerText = result.opening_crawl
+                h2.innerText = result.title
+                console.log(p, h2)
+                // append new elements to the dom
+                div.append(h2, p)
+                body.append(div)
+            })
         })
 })
