@@ -37,22 +37,30 @@ document.addEventListener('DOMContentLoaded', () => {
     //     })
     // ? starts the query strings, which are key/value pairs in a url
     // https://www.google.com/search?q=mango (query string google search example)
-    const requestUrl = 'https://randomuser.me/api/?results=10'
-    fetch(requestUrl)
-        .then(responseData => responseData.json()) // implicit return arrow function
-        .then(peopleData => {
-            console.log(peopleData)
-            const peopleList = document.querySelector('#peopleList')
-            console.log(peopleList)
-            peopleData.results.forEach(person => {
-                console.log(person.name.title, person.name.first, person.name.last)
-                // create the new element
-                const li = document.createElement('li')
-                // set the element propeties
-                li.innerText = `${person.name.title} ${person.name.first} ${person.name.last}`
-                // append the element to the dom
-                peopleList.append(li)
+    const requestUrl = 'https://randomuser.me/api/?results='
+    document.querySelector('form').addEventListener('submit', e => {
+        // tell the form to not refresh the page
+        e.preventDefault()
+        const numberOfPeople = document.querySelector('#number').value
+        console.log(numberOfPeople)
+        fetch(requestUrl + numberOfPeople)
+            .then(responseData => responseData.json()) // implicit return arrow function
+            .then(peopleData => {
+                console.log(peopleData)
+                const peopleList = document.querySelector('#peopleList')
+                console.log(peopleList)
+                peopleData.results.forEach(person => {
+                    console.log(person.name.title, person.name.first, person.name.last)
+                    // create the new element
+                    const li = document.createElement('li')
+                    // set the element propeties
+                    li.innerText = `${person.name.title} ${person.name.first} ${person.name.last}`
+                    // append the element to the dom
+                    peopleList.append(li)
+                })
             })
-        })
-        .catch(console.warn) // catch handles any errors that might occur in the fetch process
+            .catch(error => {
+                console.warn(error)
+            }) // catch handles any errors that might occur in the fetch process
+    })
 })
